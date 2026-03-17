@@ -6,20 +6,20 @@
   <title>DoubleSketch</title>
   <link rel="icon" type="image/png" href="img/logo.png" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph -->
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://doublesketchgame.onrender.com" />
   <meta property="og:title"       content="Double Sketch" />
   <meta property="og:description" content="Two Drawers on One Canvas — Who&#39;s the real artist?" />
   <meta property="og:image"       content="https://doublesketchgame.onrender.com/img/logo.png" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter -->
   <meta name="twitter:card"        content="summary" />
   <meta name="twitter:title"       content="Double Sketch" />
   <meta name="twitter:description" content="Two Drawers on One Canvas — Who&#39;s the real artist?" />
   <meta name="twitter:image"       content="https://doublesketchgame.onrender.com/img/logo.png" />
 
-  <!-- Theme colour -->
+  <!-- theme colour -->
   <meta name="theme-color" content="#f59e0b" />
 
   <link rel="stylesheet" href="css/style.css" />
@@ -33,7 +33,7 @@
       <p class="tagline">Two Drawers on One Canvas — Who&#39;s the real artist?</p>
     </header>
 
-    <!-- ── Lobby ──────────────────────────────────────────────────────────── -->
+    <!-- lobby -->
     <div id="screen-lobby" class="screen active">
       <div class="card">
         <h2>Welcome!</h2>
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <!-- ── Waiting room / lobby ────────────────────────────────────────────── -->
+    <!-- waiting room -->
     <div id="screen-waiting" class="screen">
       <div class="card">
         <h2>Room Lobby</h2>
@@ -77,11 +77,11 @@
       </div>
     </div>
 
-    <!-- ── Game screen ─────────────────────────────────────────────────────── -->
+    <!-- game screen -->
     <div id="screen-game" class="screen">
       <div class="game-layout">
 
-        <!-- Left sidebar: round info, prompt, timer, scores -->
+        <!-- left sidebar -->
         <div class="sidebar">
           <div class="round-info">
             <span class="round-label" id="game-round">Round 1</span>
@@ -98,7 +98,7 @@
           <div class="player-scores" id="player-scores"></div>
         </div>
 
-        <!-- Canvas -->
+        <!-- canvas -->
         <div class="canvas-area">
           <div class="canvas-frame">
             <div class="canvas-stack">
@@ -108,10 +108,10 @@
           </div>
         </div>
 
-        <!-- Right sidebar: tools (drawers) or guess input (guessers) + feed -->
+        <!-- right sidebar -->
         <div class="sidebar right-sidebar">
 
-          <!-- Drawing tools — visible to drawers only -->
+          <!-- drawing tools (drawers only) -->
           <div id="drawing-tools" class="drawing-tools hidden">
             <p class="tools-label">Colors</p>
             <div class="color-palette" id="color-palette"></div>
@@ -123,7 +123,7 @@
             <div class="brush-types" id="brush-types"></div>
           </div>
 
-          <!-- Guess input — visible to guessers only -->
+          <!-- guess input (guessers only) -->
           <div id="guess-area" class="guess-area hidden">
             <p class="tools-label">Your Guess</p>
             <input type="text" id="guess-input"
@@ -131,7 +131,7 @@
             <button id="submit-guess-btn" class="btn primary small">GUESS!</button>
           </div>
 
-          <!-- Guess feed — everyone sees -->
+          <!-- guess feed -->
           <div class="guess-feed-container">
             <p class="tools-label">Guesses</p>
             <div class="guess-feed" id="guess-feed"></div>
@@ -141,7 +141,7 @@
       </div>
     </div>
 
-    <!-- ── Reveal screen ───────────────────────────────────────────────────── -->
+    <!-- reveal screen -->
     <div id="screen-reveal" class="screen">
       <div class="card">
         <div class="round-info">
@@ -172,7 +172,7 @@
       </div>
     </div>
 
-    <!-- ── Game over screen ────────────────────────────────────────────────── -->
+    <!-- game over -->
     <div id="screen-gameover" class="screen">
       <div class="card text-center">
         <h2>Game Over!</h2>
@@ -183,7 +183,7 @@
       </div>
     </div>
 
-    <!-- ── Error screen ────────────────────────────────────────────────────── -->
+    <!-- error screen -->
     <div id="screen-error" class="screen">
       <div class="card text-center">
         <h2>Oops!</h2>

@@ -1,9 +1,8 @@
 'use strict';
 
-// ── Socket ────────────────────────────────────────────────────────────────────
 const socket = io();
 
-// ── State ─────────────────────────────────────────────────────────────────────
+// state
 let myRole      = null;   // 'real' | 'decoy' | 'guesser'
 let roomCode    = null;
 let isHost      = false;
@@ -18,15 +17,13 @@ let myCtx       = null;
 let isErasing   = false;
 let timerAnimFrame = null;
 
-// ── Screen management ─────────────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // Compact header during the game screen (like the reference games)
   document.querySelector('header').classList.toggle('compact', id === 'screen-game');
 }
 
-// ── Security: escape HTML before inserting into the DOM ───────────────────────
+// sanitize user strings before injecting into innerHTML
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -35,13 +32,11 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// ── Canvas ────────────────────────────────────────────────────────────────────
 const canvasReal  = document.getElementById('canvas-real');
 const canvasDecoy = document.getElementById('canvas-decoy');
 const ctxReal     = canvasReal.getContext('2d');
 const ctxDecoy    = canvasDecoy.getContext('2d');
-// canvasDecoy sits on top and receives all pointer events
-const eventCanvas = canvasDecoy;
+const eventCanvas = canvasDecoy; // decoy is on top and catches pointer events
 
 function drawSegment(targetCtx, x0, y0, x1, y1, color, size) {
   targetCtx.beginPath();
@@ -79,7 +74,7 @@ function onDrawMove(e) {
   e.preventDefault();
   const { x, y } = getPos(e);
 
-  // Draw locally right away (responsive feel for the person drawing)
+  // draw locally first for instant feedback
   if (isErasing) {
     myCtx.save();
     myCtx.globalCompositeOperation = 'destination-out';
@@ -89,7 +84,6 @@ function onDrawMove(e) {
     drawSegment(myCtx, lastX, lastY, x, y, currentColor, currentSize);
   }
 
-  // Send to server — server will broadcast to others
   socket.emit('draw-stroke', {
     x0: lastX, y0: lastY,
     x1: x,     y1: y,
@@ -112,21 +106,13 @@ eventCanvas.addEventListener('touchstart', onDrawStart, { passive: false });
 eventCanvas.addEventListener('touchmove',  onDrawMove,  { passive: false });
 eventCanvas.addEventListener('touchend',   onDrawEnd);
 
-// ── Color palette ─────────────────────────────────────────────────────────────
 const COLORS = [
-  // blacks & whites
   '#000000', '#ffffff',
-  // greys
   '#6b7280', '#d1d5db',
-  // warm reds & pinks
   '#dc2626', '#f87171', '#e8609a', '#f9a8d4',
-  // oranges & yellows
   '#f97316', '#fbbf24', '#facc15',
-  // greens
   '#16a34a', '#4ade80', '#84cc16',
-  // blues & purples
   '#2563eb', '#60a5fa', '#0ea5e9', '#7c3aed', '#a78bfa',
-  // browns
   '#92400e', '#d97706',
 ];
 
@@ -142,14 +128,12 @@ function buildColorPalette() {
       document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
       swatch.classList.add('selected');
       currentColor = color;
-      // Switch back to pencil when a colour is picked
-      setErasing(false);
+      setErasing(false); // picking a colour switches back to pencil
     });
     palette.appendChild(swatch);
   });
 }
 
-// ── Brush sizes ───────────────────────────────────────────────────────────────
 const BRUSH_SIZES = [
   { size: 2  },
   { size: 6  },
@@ -163,10 +147,9 @@ function buildBrushSizes() {
     const btn = document.createElement('button');
     btn.className   = 'brush-btn' + (i === 1 ? ' selected' : '');
     btn.dataset.size = size;
-    // Visual circle whose diameter scales with the brush size
     const dot = document.createElement('span');
     dot.className = 'brush-dot';
-    const dotPx = Math.round(4 + size * 0.9); // min 6px, max ~30px
+    const dotPx = Math.round(4 + size * 0.9);
     dot.style.width  = dotPx + 'px';
     dot.style.height = dotPx + 'px';
     btn.appendChild(dot);
@@ -177,11 +160,10 @@ function buildBrushSizes() {
     });
     container.appendChild(btn);
   });
-  // Default to second size
   currentSize = BRUSH_SIZES[1].size;
 }
 
-// ── Brush type (pencil / eraser) ──────────────────────────────────────────────────
+// brush type toggle
 const SVG_PENCIL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
@@ -218,14 +200,12 @@ function buildBrushTypes() {
   });
 }
 
-// ── Timer display ─────────────────────────────────────────────────────────────
 function formatTimer(seconds) {
   const m = Math.floor(seconds / 60);
   const s = String(seconds % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
 
-// ── Guess feed ────────────────────────────────────────────────────────────────
 function addGuessEntry(guesserName, guess, correct) {
   const feed  = document.getElementById('guess-feed');
   const entry = document.createElement('div');
@@ -237,7 +217,6 @@ function addGuessEntry(guesserName, guess, correct) {
   feed.scrollTop = feed.scrollHeight;
 }
 
-// ── Waiting room helpers ──────────────────────────────────────────────────────
 function buildWaitingPlayerList(players, hostId) {
   const list = document.getElementById('waiting-player-list');
   list.innerHTML = '';
@@ -263,7 +242,6 @@ function buildWaitingPlayerList(players, hostId) {
   }
 }
 
-// ── Game screen setup ─────────────────────────────────────────────────────────
 function setupGameScreen(data) {
   const { round, totalRounds, realDrawer, decoyDrawer, timer, players } = data;
 
@@ -275,14 +253,12 @@ function setupGameScreen(data) {
   if (timerAnimFrame !== null) { cancelAnimationFrame(timerAnimFrame); timerAnimFrame = null; }
   timerEl.style.color = '';
 
-  // Clear both canvas layers and guess feed for the new round
   ctxReal.clearRect(0, 0, canvasReal.width, canvasReal.height);
   ctxDecoy.clearRect(0, 0, canvasDecoy.width, canvasDecoy.height);
   isErasing = false;
   setErasing(false);
   document.getElementById('guess-feed').innerHTML = '';
 
-  // Determine this client's role
   if      (socket.id === realDrawer)  myRole = 'real';
   else if (socket.id === decoyDrawer) myRole = 'decoy';
   else                                myRole = 'guesser';
@@ -291,7 +267,6 @@ function setupGameScreen(data) {
   myCanvas = myRole === 'real'  ? canvasReal  : myRole === 'decoy' ? canvasDecoy : null;
   myCtx    = myRole === 'real'  ? ctxReal     : myRole === 'decoy' ? ctxDecoy    : null;
 
-  // Role badge
   const badge = document.getElementById('role-badge');
   if (myRole === 'real') {
     badge.textContent = 'Real Drawer';
@@ -304,24 +279,21 @@ function setupGameScreen(data) {
     badge.className   = 'role-badge guesser';
   }
 
-  // Show drawing tools for drawers, guess input for guessers
   document.getElementById('drawing-tools').classList.toggle('hidden', !canDraw);
   document.getElementById('guess-area').classList.toggle('hidden', canDraw);
 
-  // Re-enable guess input (may have been disabled after a correct guess last round)
+  // re-enable guess input in case it was locked after a correct guess last round
   const guessInput = document.getElementById('guess-input');
   const guessBtn   = document.getElementById('submit-guess-btn');
   guessInput.value    = '';
   guessInput.disabled = false;
   guessBtn.disabled   = false;
 
-  // Prompt box hidden until server privately sends the prompt
   const promptBox = document.getElementById('prompt-box');
   promptBox.classList.add('hidden');
   promptBox.classList.toggle('decoy', myRole === 'decoy');
   document.getElementById('prompt-text').textContent = '';
 
-  // Scores sidebar
   buildScoreList(players, realDrawer, decoyDrawer);
 
   showScreen('screen-game');
@@ -342,7 +314,7 @@ function buildScoreList(players, realDrawerId, decoyDrawerId) {
   });
 }
 
-// ── Socket events ─────────────────────────────────────────────────────────────
+// socket events
 
 socket.on('room-created', ({ roomCode: code }) => {
   roomCode = code;
@@ -386,7 +358,6 @@ socket.on('your-prompt', ({ prompt }) => {
   document.getElementById('prompt-box').classList.remove('hidden');
 });
 
-// Strokes arrive here: immediate for the other drawer, delayed for guessers
 socket.on('stroke', ({ x0, y0, x1, y1, color, size, layer, erase }) => {
   const targetCtx = layer === 'real' ? ctxReal : ctxDecoy;
   if (erase) {
@@ -413,18 +384,18 @@ socket.on('guess-made', ({ guesserName, guess, correct }) => {
   }
 });
 
-// Returns [r,g,b] for a timer value: white (t≥20) → orange (t=10) → red (t=0)
+// white → orange → red over the last 20 seconds
 function timerColor(t) {
   if (t >= 20) return [255, 255, 254];
   if (t >= 10) {
-    const f = (20 - t) / 10; // 0 at 20s, 1 at 10s
+    const f = (20 - t) / 10;
     return [
       Math.round(255 + (249 - 255) * f),
       Math.round(255 + (115 - 255) * f),
       Math.round(254 + (22  - 254) * f),
     ];
   }
-  const f = (10 - t) / 10; // 0 at 10s, 1 at 0s
+  const f = (10 - t) / 10;
   return [
     Math.round(249 + (239 - 249) * f),
     Math.round(115 + (68  - 115) * f),
@@ -443,7 +414,6 @@ socket.on('timer-tick', ({ timer }) => {
     return;
   }
 
-  // Smoothly animate from timerColor(timer) → timerColor(timer-1) at ~60fps
   const [fr, fg, fb] = timerColor(timer);
   const [tr, tg, tb] = timerColor(timer - 1);
   const startTime = performance.now();
@@ -517,7 +487,6 @@ socket.on('game-over', ({ scores, totalPlayers }) => {
     container.appendChild(row);
   });
 
-  // Everyone sees the button; after clicking it shows a waiting counter
   const playAgainBtn  = document.getElementById('play-again-btn');
   const playAgainWait = document.getElementById('play-again-wait');
   playAgainBtn.disabled = false;
@@ -540,7 +509,6 @@ socket.on('next-round-voted', ({ readyCount, totalCount }) => {
 });
 
 socket.on('back-to-lobby', () => {
-  // Reset play-again button state for the next game-over
   const playAgainBtn = document.getElementById('play-again-btn');
   playAgainBtn.disabled = false;
   playAgainBtn.classList.add('hidden');
@@ -554,14 +522,13 @@ socket.on('player-left', ({ players, hostId }) => {
 });
 
 socket.on('error-message', (msg) => {
-  // Route to whichever error element is on the currently active screen
   const onWaiting = document.getElementById('screen-waiting').classList.contains('active');
   const errEl = document.getElementById(onWaiting ? 'waiting-error' : 'lobby-error');
   errEl.textContent = msg;
   errEl.classList.remove('hidden');
 });
 
-// ── Button wiring ─────────────────────────────────────────────────────────────
+// button wiring
 
 document.getElementById('create-btn').addEventListener('click', () => {
   const name = document.getElementById('player-name').value.trim();
@@ -620,7 +587,7 @@ document.getElementById('back-to-lobby-btn').addEventListener('click', () => {
   location.reload();
 });
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// init
 buildColorPalette();
 buildBrushSizes();
 buildBrushTypes();

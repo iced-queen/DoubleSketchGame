@@ -1,15 +1,14 @@
-/* ------------------------------------------------------------------
-   DoubleSketch � style.css
-   Palette:  amber/orange accent  (#f59e0b / #f97316)
-             dark bg              (#0f0d0a)
-             card bg              (#1c1810)
-             border               (#2e2a1e)
-   ------------------------------------------------------------------ */
+/* DoubleSketch — style.css
+   amber/orange accent  (#f59e0b / #f97316)
+   dark bg              (#0f0d0a)
+   card bg              (#1c1810)
+   border               (#2e2a1e)
+*/
 
-/* -- Reset ------------------------------------------------------------------- */
+/* reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* -- Body / page shell -------------------------------------------------------- */
+/* body */
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: #0f0d0a;
@@ -27,7 +26,7 @@ body {
   max-width: 480px;
 }
 
-/* -- Header ------------------------------------------------------------------- */
+/* header */
 header {
   text-align: center;
   margin-bottom: 0.5rem;
@@ -49,7 +48,7 @@ header {
   100% { transform: scale(1); }
 }
 
-/* Compact header shown during the game screen */
+/* compact header during game screen */
 header.compact {
   margin-bottom: 0.25rem;
 }
@@ -81,11 +80,11 @@ header h1 {
   margin-top: 0.25rem;
 }
 
-/* -- Screen visibility -------------------------------------------------------- */
+/* screens */
 .screen        { display: none; }
 .screen.active { display: block; }
 
-/* Expand the app container to fill the viewport during the game screen */
+/* drop the app width constraint during the game screen */
 .app:has(#screen-game.active) {
   max-width: none;
   padding: 0.5rem 1rem;
@@ -97,7 +96,7 @@ header h1 {
   width: 100%;
 }
 
-/* -- Card ---------------------------------------------------------------------- */
+/* card */
 .card {
   background: #1c1810;
   border: 1px solid #2e2a1e;
@@ -121,7 +120,7 @@ header h1 {
   margin-bottom: 0.4rem;
 }
 
-/* -- Typography utilities ----------------------------------------------------- */
+/* typography helpers */
 .muted {
   color: #9ca3af;
   font-size: 0.9rem;
@@ -133,7 +132,7 @@ header h1 {
 .text-center { text-align: center; }
 .hidden      { display: none !important; }
 
-/* -- Form elements ------------------------------------------------------------ */
+/* forms */
 .form-group { margin-bottom: 1rem; }
 
 .form-group label {
@@ -163,7 +162,7 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
 }
 
-/* -- Divider ------------------------------------------------------------------- */
+/* divider */
 .divider {
   display: flex;
   align-items: center;
@@ -181,7 +180,7 @@ input[type="text"]:focus {
   background: #2e2a1e;
 }
 
-/* -- Buttons ------------------------------------------------------------------- */
+/* buttons */
 .btn {
   display: block;
   width: 100%;
@@ -212,7 +211,7 @@ input[type="text"]:focus {
 }
 .btn.secondary:hover:not(:disabled) { background: rgba(245, 158, 11, 0.1); }
 
-/* Active state for toggle buttons (e.g. Eraser) */
+/* active state for toggle buttons */
 .btn.secondary.active {
   background: rgba(245, 158, 11, 0.18);
   border-color: #f59e0b;
@@ -227,7 +226,7 @@ input[type="text"]:focus {
   margin-top: 0.5rem;
 }
 
-/* -- Error text ---------------------------------------------------------------- */
+/* error text */
 .error-text {
   color: #f97316;
   font-size: 0.85rem;
@@ -235,7 +234,7 @@ input[type="text"]:focus {
   text-align: center;
 }
 
-/* -- Room code display ---------------------------------------------------------- */
+/* room code display */
 .room-code-display {
   font-size: 2.75rem;
   font-weight: 800;
@@ -273,7 +272,7 @@ input[type="text"]:focus {
   opacity: 1;
 }
 
-/* -- Player list (waiting room) ------------------------------------------------- */
+/* waiting room player list */
 .player-list {
   display: flex;
   flex-direction: column;
@@ -295,7 +294,7 @@ input[type="text"]:focus {
 
 .host-crown { color: #f59e0b; }
 
-/* -- Loader spinner ------------------------------------------------------------ */
+/* spinner */
 .loader {
   width: 34px;
   height: 34px;
@@ -308,9 +307,7 @@ input[type="text"]:focus {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ------------------------------------------------------------------
-   GAME SCREEN � wider layout (not constrained to 480px)
-   ------------------------------------------------------------------ */
+/* game screen — wider than the default 480px cap */
 
 .game-layout {
   display: flex;
@@ -331,7 +328,7 @@ input[type="text"]:focus {
 
 .right-sidebar { width: 220px; }
 
-/* -- Round info ----------------------------------------------------------------- */
+/* round info */
 .round-info {
   display: flex;
   flex-direction: column;
@@ -352,7 +349,7 @@ input[type="text"]:focus {
   padding: 0.2rem 0.55rem;
 }
 
-/* -- Role badges ---------------------------------------------------------------- */
+/* role badges */
 .role-badge {
   font-size: 0.7rem;
   font-weight: 700;
@@ -378,7 +375,7 @@ input[type="text"]:focus {
   border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
-/* -- Timer ---------------------------------------------------------------------- */
+/* timer */
 .timer-display {
   font-size: 2rem;
   font-weight: 900;
@@ -390,7 +387,7 @@ input[type="text"]:focus {
   color: #fffffe;
 }
 
-/* -- Prompt box ----------------------------------------------------------------- */
+/* prompt box */
 .prompt-box {
   background: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.3);
@@ -422,7 +419,7 @@ input[type="text"]:focus {
   color: #f97040;
 }
 
-/* -- Player scores sidebar ------------------------------------------------------ */
+/* scores sidebar */
 .player-scores {
   background: #1c1810;
   border: 1px solid #2e2a1e;
@@ -447,7 +444,7 @@ input[type="text"]:focus {
 .score-row .name-decoy,
 .score-row-reveal .name-decoy { color: #f97040; font-weight: 700; }
 
-/* -- Canvas area ---------------------------------------------------------------- */
+/* canvas */
 .canvas-area {
   flex: 1;
   display: flex;
@@ -464,7 +461,7 @@ input[type="text"]:focus {
     0 0 0 1px rgba(245, 158, 11, 0.15),
     0 8px 40px rgba(0, 0, 0, 0.6),
     0 0 60px rgba(245, 158, 11, 0.08);
-  line-height: 0; /* remove inline gap below canvas */
+  line-height: 0;
 }
 
 .canvas-stack {
@@ -482,7 +479,7 @@ input[type="text"]:focus {
   touch-action: none;
 }
 
-/* Decoy canvas is absolutely stacked on top — it captures all pointer events */
+/* decoy canvas is absolutely stacked on top and captures pointer events */
 #canvas-decoy {
   position: absolute;
   top: 0;
@@ -493,7 +490,7 @@ input[type="text"]:focus {
   touch-action: none;
 }
 
-/* -- Drawing tools panel -------------------------------------------------------- */
+/* drawing tools panel */
 .drawing-tools,
 .guess-area {
   background: #1c1810;
@@ -568,7 +565,7 @@ input[type="text"]:focus {
 .brush-btn:hover    .brush-dot { background: #fbbf24; }
 .brush-btn.selected .brush-dot { background: #fbbf24; }
 
-/* -- Brush type buttons (pencil / eraser) --------------------------------------- */
+/* brush type buttons (pencil / eraser) */
 .brush-types {
   display: flex;
   gap: 0.5rem;
@@ -602,7 +599,7 @@ input[type="text"]:focus {
   color: #fbbf24;
 }
 
-/* -- Guess area ----------------------------------------------------------------- */
+/* guess area */
 .guess-area { margin-bottom: 0; }
 
 #guess-input {
@@ -623,7 +620,7 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
 }
 
-/* -- Guess feed ----------------------------------------------------------------- */
+/* guess feed */
 .guess-feed-container {
   background: #1c1810;
   border: 1px solid #2e2a1e;
@@ -658,9 +655,7 @@ input[type="text"]:focus {
 
 .guess-entry .guesser-name { font-weight: 700; color: #fffffe; }
 
-/* ------------------------------------------------------------------
-   REVEAL SCREEN
-   ------------------------------------------------------------------ */
+/* reveal screen */
 
 .reveal-prompts {
   display: flex;
@@ -741,9 +736,7 @@ input[type="text"]:focus {
 }
 .score-val   { color: #f59e0b; font-weight: 800; }
 
-/* ------------------------------------------------------------------
-   GAME OVER SCREEN
-   ------------------------------------------------------------------ */
+/* game over */
 
 .final-scores {
   display: flex;
@@ -773,7 +766,7 @@ input[type="text"]:focus {
 
 .final-score-val { color: #f59e0b; font-weight: 900; }
 
-/* -- Footer --------------------------------------------------------------------- */
+/* footer */
 .site-footer {
   position: fixed;
   bottom: 0;
@@ -787,7 +780,7 @@ input[type="text"]:focus {
   letter-spacing: 0.02em;
 }
 
-/* -- Responsive ----------------------------------------------------------------- */
+/* responsive */
 @media (max-width: 480px) {
   header h1          { font-size: 2rem; }
   .card              { padding: 1.5rem; }
@@ -808,7 +801,7 @@ input[type="text"]:focus {
     max-width: 600px;
   }
 
-  /* Left sidebar: horizontal strip on mobile */
+  /* left sidebar: horizontal strip on mobile */
   .sidebar {
     flex-direction: row;
     flex-wrap: wrap;
@@ -821,14 +814,12 @@ input[type="text"]:focus {
   .prompt-box   { flex: 1 1 180px; }
   .player-scores { width: 100%; }
 
-  /* Color swatches wrap into more rows — OK on mobile */
   .color-palette { gap: 0.4rem; }
   .color-swatch  { width: 28px; height: 28px; }
 
-  /* Guess input full width */
   .guess-area, .guess-feed-container { width: 100%; }
 
-  /* Canvas stack full width on mobile */
+  /* canvas full width on mobile */
   .canvas-area  { width: 100%; }
   .canvas-frame { width: 100%; }
 
