@@ -16,8 +16,8 @@ Guessers must figure out which drawing matches the real prompt!
 1. Create a room.
 2. Share the room code with your friends.
 3. Two players are assigned roles: **Real Drawer** and **Decoy Drawer** — the rest are **Guessers**.
-4. The Real Drawer draws their prompt honestly. The Decoy Drawer's goal is to sabotage the guessers by drawing their own fake prompt, trying to make it look more convincing than the real one.
-5. Guessers study both drawings and submit which prompt they think is real.
+4. The Real Drawer draws their prompt honestly. The Decoy Drawer's goal is to sabotage the guessers by turning the real drawing into their own fake prompt.
+5. Guessers study the drawing and submit guesses for what the real prompt is.
 6. Reveal the answer and see who guessed correctly!
 
 ---
