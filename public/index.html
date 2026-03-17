@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DoubleSketch</title>
+  <link rel="icon" type="image/png" href="img/logo.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="DoubleSketch" />
+  <meta property="og:description" content="Two Drawers on One Canvas — Who&#39;s the real artist?" />
+  <meta property="og:image"       content="img/logo.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="DoubleSketch" />
+  <meta name="twitter:description" content="Two Drawers on One Canvas — Who&#39;s the real artist?" />
+  <meta name="twitter:image"       content="img/logo.png" />
+
+  <!-- Theme colour -->
+  <meta name="theme-color" content="#f59e0b" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header>
+      <img src="img/logo.png" alt="DoubleSketch logo" class="site-logo" />
+      <h1>DoubleSketch</h1>
+      <p class="tagline">Two Drawers on One Canvas — Who&#39;s the real artist?</p>
+    </header>
+
+    <!-- ── Lobby ──────────────────────────────────────────────────────────── -->
+    <div id="screen-lobby" class="screen active">
+      <div class="card">
+        <h2>Welcome!</h2>
+        <p class="muted">Enter your name, then create or join a room.</p>
+
+        <div class="form-group">
+          <label for="player-name">Your Name</label>
+          <input type="text" id="player-name" placeholder="e.g. Bob"
+                 maxlength="20" autocomplete="off" />
+        </div>
+
+        <button id="create-btn" class="btn primary">Create New Room</button>
+
+        <div class="divider"><span>or join with a code</span></div>
+
+        <div class="form-group">
+          <label for="room-code-input">Room Code</label>
+          <input type="text" id="room-code-input" placeholder="e.g. AB3D5"
+                 maxlength="5" autocomplete="off" style="text-transform:uppercase" />
+        </div>
+
+        <button id="join-btn" class="btn secondary">Join Room</button>
+
+        <p class="error-text hidden" id="lobby-error"></p>
+      </div>
+    </div>
+
+    <!-- ── Waiting room / lobby ────────────────────────────────────────────── -->
+    <div id="screen-waiting" class="screen">
+      <div class="card">
+        <h2>Room Lobby</h2>
+        <p class="muted">Share this code with your friends:</p>
+        <div class="room-code-display" id="display-room-code">-----</div>
+
+        <div class="player-list" id="waiting-player-list"></div>
+
+        <p class="muted small" id="waiting-status">Waiting for more players… (need at least 3)</p>
+
+        <button id="start-btn" class="btn primary hidden">Start Game</button>
+        <p class="error-text hidden" id="waiting-error"></p>
+      </div>
+    </div>
+
+    <!-- ── Game screen ─────────────────────────────────────────────────────── -->
+    <div id="screen-game" class="screen">
+      <div class="game-layout">
+
+        <!-- Left sidebar: round info, prompt, timer, scores -->
+        <div class="sidebar">
+          <div class="round-info">
+            <span class="round-label" id="game-round">Round 1</span>
+            <span class="role-badge" id="role-badge">Guesser</span>
+          </div>
+
+          <div id="prompt-box" class="prompt-box hidden">
+            <p class="prompt-label">Your prompt:</p>
+            <p class="prompt-text" id="prompt-text"></p>
+          </div>
+
+          <div class="timer-display" id="timer-display">1:30</div>
+
+          <div class="player-scores" id="player-scores"></div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="canvas-area">
+          <div class="canvas-frame">
+            <div class="canvas-stack">
+              <canvas id="canvas-real"  width="900" height="700"></canvas>
+              <canvas id="canvas-decoy" width="900" height="700"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right sidebar: tools (drawers) or guess input (guessers) + feed -->
+        <div class="sidebar right-sidebar">
+
+          <!-- Drawing tools — visible to drawers only -->
+          <div id="drawing-tools" class="drawing-tools hidden">
+            <p class="tools-label">Colors</p>
+            <div class="color-palette" id="color-palette"></div>
+
+            <p class="tools-label">Brush Size</p>
+            <div class="brush-sizes" id="brush-sizes"></div>
+
+            <p class="tools-label">Brush Type</p>
+            <div class="brush-types" id="brush-types"></div>
+          </div>
+
+          <!-- Guess input — visible to guessers only -->
+          <div id="guess-area" class="guess-area hidden">
+            <p class="tools-label">Your Guess</p>
+            <input type="text" id="guess-input"
+                   placeholder="Type your guess…" maxlength="100" autocomplete="off" />
+            <button id="submit-guess-btn" class="btn primary small">GUESS!</button>
+          </div>
+
+          <!-- Guess feed — everyone sees -->
+          <div class="guess-feed-container">
+            <p class="tools-label">Guesses</p>
+            <div class="guess-feed" id="guess-feed"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Reveal screen ───────────────────────────────────────────────────── -->
+    <div id="screen-reveal" class="screen">
+      <div class="card">
+        <div class="round-info">
+          <span class="round-label" id="reveal-round">Round 1</span>
+        </div>
+
+        <h2 id="reveal-heading" style="margin-top:.75rem">Round Over!</h2>
+
+        <div class="reveal-prompts">
+          <div class="reveal-item">
+            <span class="reveal-badge real-badge">Real Prompt</span>
+            <p class="reveal-prompt" id="reveal-real-prompt"></p>
+            <p class="reveal-name"  id="reveal-real-drawer"></p>
+          </div>
+          <div class="reveal-item">
+            <span class="reveal-badge decoy-badge">Decoy Prompt</span>
+            <p class="reveal-prompt" id="reveal-decoy-prompt"></p>
+            <p class="reveal-name"  id="reveal-decoy-drawer"></p>
+          </div>
+        </div>
+
+        <p class="reveal-result" id="reveal-result-text"></p>
+
+        <div class="score-list" id="reveal-scores"></div>
+
+        <button id="next-round-btn" class="btn primary hidden">Next Round &rarr;</button>
+        <p class="muted small" id="next-round-waiting" style="margin-top:.75rem"></p>
+      </div>
+    </div>
+
+    <!-- ── Game over screen ────────────────────────────────────────────────── -->
+    <div id="screen-gameover" class="screen">
+      <div class="card text-center">
+        <h2>Game Over!</h2>
+        <p class="muted">Final scores:</p>
+        <div class="final-scores" id="final-scores"></div>
+        <button id="play-again-btn" class="btn primary hidden" style="margin-top:1.5rem">Play Again</button>
+        <p class="muted small hidden" id="play-again-wait" style="margin-top:1rem"></p>
+      </div>
+    </div>
+
+    <!-- ── Error screen ────────────────────────────────────────────────────── -->
+    <div id="screen-error" class="screen">
+      <div class="card text-center">
+        <h2>Oops!</h2>
+        <p class="muted" id="error-msg-text">Something went wrong.</p>
+        <button id="back-to-lobby-btn" class="btn secondary"
+                style="margin-top:1.5rem">Back to Lobby</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">Made with &#10084;&#65039; by Iced Queen</footer>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

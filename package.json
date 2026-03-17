@@ -1,0 +1,13 @@
+{
+  "name": "doublesketch",
+  "version": "1.0.0",
+  "description": "A multiplayer drawing + deception game where two drawers share one canvas",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}

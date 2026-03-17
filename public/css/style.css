@@ -1,0 +1,839 @@
+/* ------------------------------------------------------------------
+   DoubleSketch � style.css
+   Palette:  amber/orange accent  (#f59e0b / #f97316)
+             dark bg              (#0f0d0a)
+             card bg              (#1c1810)
+             border               (#2e2a1e)
+   ------------------------------------------------------------------ */
+
+/* -- Reset ------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* -- Body / page shell -------------------------------------------------------- */
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f0d0a;
+  color: #fffffe;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* -- Header ------------------------------------------------------------------- */
+header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.site-logo {
+  display: block;
+  width: 300px;
+  height: auto;
+  margin: 0 auto 0;
+  border-radius: 32px;
+  animation: logo-bounce 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes logo-bounce {
+  0%   { transform: scale(0.5) translateY(-20px); opacity: 0; }
+  65%  { transform: scale(1.08) translateY(0);    opacity: 1; }
+  82%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+/* Compact header shown during the game screen */
+header.compact {
+  margin-bottom: 0.25rem;
+}
+header.compact .site-logo {
+  width: 56px;
+  border-radius: 12px;
+  animation: none;
+}
+header.compact h1 {
+  font-size: 1.3rem;
+}
+header.compact .tagline {
+  display: none;
+}
+
+header h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tagline {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* -- Screen visibility -------------------------------------------------------- */
+.screen        { display: none; }
+.screen.active { display: block; }
+
+/* Expand the app container to fill the viewport during the game screen */
+.app:has(#screen-game.active) {
+  max-width: none;
+  padding: 0.5rem 1rem;
+}
+
+#screen-game.active {
+  display: block;
+  max-width: none;
+  width: 100%;
+}
+
+/* -- Card ---------------------------------------------------------------------- */
+.card {
+  background: #1c1810;
+  border: 1px solid #2e2a1e;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.screen.active .card {
+  animation: card-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+/* -- Typography utilities ----------------------------------------------------- */
+.muted {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.small       { font-size: 0.82rem; }
+.text-center { text-align: center; }
+.hidden      { display: none !important; }
+
+/* -- Form elements ------------------------------------------------------------ */
+.form-group { margin-bottom: 1rem; }
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.4rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #0f0d0a;
+  border: 1px solid #2e2a1e;
+  border-radius: 8px;
+  color: #fffffe;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+/* -- Divider ------------------------------------------------------------------- */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: #4b5563;
+  font-size: 0.8rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #2e2a1e;
+}
+
+/* -- Buttons ------------------------------------------------------------------- */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s, opacity 0.2s;
+  margin-top: 0.75rem;
+}
+
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn:disabled               { opacity: 0.45; cursor: not-allowed; }
+
+.btn.primary {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: #0f0d0a;
+  font-weight: 700;
+}
+.btn.primary:hover:not(:disabled) { filter: brightness(1.1); }
+
+.btn.secondary {
+  background: transparent;
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+}
+.btn.secondary:hover:not(:disabled) { background: rgba(245, 158, 11, 0.1); }
+
+/* Active state for toggle buttons (e.g. Eraser) */
+.btn.secondary.active {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.btn.small {
+  width: auto;
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* -- Error text ---------------------------------------------------------------- */
+.error-text {
+  color: #f97316;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* -- Room code display ---------------------------------------------------------- */
+.room-code-display {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 1.25rem 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.room-code-display::after {
+  content: 'Click to copy';
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-family: inherit;
+  background: none;
+  -webkit-text-fill-color: #94a3b8;
+  color: #94a3b8;
+  margin-top: -0.5rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.room-code-display.copied::after {
+  content: 'Copied!';
+  -webkit-text-fill-color: #f59e0b;
+  color: #f59e0b;
+  opacity: 1;
+}
+
+/* -- Player list (waiting room) ------------------------------------------------- */
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.player-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2a1e;
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.host-crown { color: #f59e0b; }
+
+/* -- Loader spinner ------------------------------------------------------------ */
+.loader {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #2e2a1e;
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  margin: 1.5rem auto 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ------------------------------------------------------------------
+   GAME SCREEN � wider layout (not constrained to 480px)
+   ------------------------------------------------------------------ */
+
+.game-layout {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.right-sidebar { width: 220px; }
+
+/* -- Round info ----------------------------------------------------------------- */
+.round-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.round-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2a1e;
+  border-radius: 6px;
+  padding: 0.2rem 0.55rem;
+}
+
+/* -- Role badges ---------------------------------------------------------------- */
+.role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+}
+
+.role-badge.real-drawer {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.role-badge.decoy-drawer {
+  background: rgba(249, 115, 22, 0.18);
+  color: #f97040;
+  border: 1px solid rgba(249, 115, 22, 0.4);
+}
+.role-badge.guesser {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* -- Timer ---------------------------------------------------------------------- */
+.timer-display {
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  background: #1c1810;
+  border: 1px solid #2e2a1e;
+  border-radius: 12px;
+  padding: 0.5rem;
+  color: #fffffe;
+}
+
+/* -- Prompt box ----------------------------------------------------------------- */
+.prompt-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.prompt-box.decoy {
+  background: rgba(249, 112, 64, 0.08);
+  border-color: rgba(249, 112, 64, 0.3);
+}
+
+.prompt-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b7280;
+  margin-bottom: 0.3rem;
+}
+
+.prompt-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+.prompt-box.decoy .prompt-text {
+  color: #f97040;
+}
+
+/* -- Player scores sidebar ------------------------------------------------------ */
+.player-scores {
+  background: #1c1810;
+  border: 1px solid #2e2a1e;
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.score-row .score-val { color: #f59e0b; font-weight: 800; }
+.score-row .name-real,
+.score-row-reveal .name-real  { color: #fbbf24; font-weight: 700; }
+.score-row .name-decoy,
+.score-row-reveal .name-decoy { color: #f97040; font-weight: 700; }
+
+/* -- Canvas area ---------------------------------------------------------------- */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.canvas-frame {
+  background: #1c1810;
+  border: 2px solid #f59e0b;
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.15),
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(245, 158, 11, 0.08);
+  line-height: 0; /* remove inline gap below canvas */
+}
+
+.canvas-stack {
+  position: relative;
+  background: #fffffe;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+
+#canvas-real {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  touch-action: none;
+}
+
+/* Decoy canvas is absolutely stacked on top — it captures all pointer events */
+#canvas-decoy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* -- Drawing tools panel -------------------------------------------------------- */
+.drawing-tools,
+.guess-area {
+  background: #1c1810;
+  border: 1px solid #2e2a1e;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.tools-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b7280;
+  margin-bottom: 0.4rem;
+}
+
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.color-swatch:hover    { transform: scale(1.18); }
+.color-swatch.selected { outline-color: #f59e0b; transform: scale(1.18); }
+
+.brush-sizes {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 0.75rem;
+}
+
+.brush-btn {
+  border: 2px solid #2e2a1e;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  /* fixed outer size so all buttons are the same clickable area */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.brush-btn:hover    { border-color: #f59e0b; }
+.brush-btn.selected { border-color: #f59e0b; background: rgba(245,158,11,0.12); }
+
+.brush-dot {
+  border-radius: 50%;
+  background: #9ca3af;
+  display: block;
+  transition: background 0.15s;
+  pointer-events: none;
+}
+
+.brush-btn:hover    .brush-dot { background: #fbbf24; }
+.brush-btn.selected .brush-dot { background: #fbbf24; }
+
+/* -- Brush type buttons (pencil / eraser) --------------------------------------- */
+.brush-types {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem;
+  border: 2px solid #2e2a1e;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.type-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.type-btn:hover   { border-color: #f59e0b; color: #fbbf24; }
+.type-btn.selected {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+}
+
+/* -- Guess area ----------------------------------------------------------------- */
+.guess-area { margin-bottom: 0; }
+
+#guess-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  background: #0f0d0a;
+  border: 1px solid #2e2a1e;
+  border-radius: 8px;
+  color: #fffffe;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 0.4rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#guess-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+/* -- Guess feed ----------------------------------------------------------------- */
+.guess-feed-container {
+  background: #1c1810;
+  border: 1px solid #2e2a1e;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.guess-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.guess-entry {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2a1e;
+  word-break: break-word;
+  color: #d1d5db;
+}
+
+.guess-entry.correct {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.guess-entry .guesser-name { font-weight: 700; color: #fffffe; }
+
+/* ------------------------------------------------------------------
+   REVEAL SCREEN
+   ------------------------------------------------------------------ */
+
+.reveal-prompts {
+  display: flex;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+}
+
+.reveal-item {
+  flex: 1;
+  min-width: 160px;
+  border-radius: 12px;
+  padding: 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #2e2a1e;
+}
+
+.reveal-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.4rem;
+}
+
+.real-badge {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.decoy-badge {
+  background: rgba(249, 115, 22, 0.18);
+  color: #f97040;
+  border: 1px solid rgba(249, 115, 22, 0.4);
+}
+
+.reveal-prompt { font-size: 1.1rem; font-weight: 800; margin: 0.3rem 0; }
+.reveal-name   { font-size: 0.82rem; color: #6b7280; }
+
+.reveal-result {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.score-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.score-row-reveal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #2e2a1e;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  color: #d1d5db;
+}
+
+.score-delta {
+  color: #f59e0b;
+  font-weight: 800;
+  min-width: 2.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+.score-val   { color: #f59e0b; font-weight: 800; }
+
+/* ------------------------------------------------------------------
+   GAME OVER SCREEN
+   ------------------------------------------------------------------ */
+
+.final-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.final-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2a1e;
+  color: #d1d5db;
+}
+
+.final-score-row:first-child {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+  font-size: 1.05rem;
+}
+
+.final-score-val { color: #f59e0b; font-weight: 900; }
+
+/* -- Footer --------------------------------------------------------------------- */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #4b5563;
+  font-size: 0.75rem;
+  padding: 0.6rem 0;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+/* -- Responsive ----------------------------------------------------------------- */
+@media (max-width: 480px) {
+  header h1          { font-size: 2rem; }
+  .card              { padding: 1.5rem; }
+  .room-code-display { font-size: 2.25rem; }
+  .site-logo         { width: 200px; }
+}
+
+@media (max-width: 768px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .sidebar, .right-sidebar {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* Left sidebar: horizontal strip on mobile */
+  .sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .round-info   { flex: 0 0 auto; }
+  .timer-display { flex: 0 0 auto; font-size: 1.4rem; padding: 0.3rem 0.75rem; }
+  .prompt-box   { flex: 1 1 180px; }
+  .player-scores { width: 100%; }
+
+  /* Color swatches wrap into more rows — OK on mobile */
+  .color-palette { gap: 0.4rem; }
+  .color-swatch  { width: 28px; height: 28px; }
+
+  /* Guess input full width */
+  .guess-area, .guess-feed-container { width: 100%; }
+
+  /* Canvas stack full width on mobile */
+  .canvas-area  { width: 100%; }
+  .canvas-frame { width: 100%; }
+
+  #canvas-real {
+    width: 100%;
+    height: auto;
+  }
+}
