@@ -32,6 +32,16 @@ header {
   margin-bottom: 0.5rem;
 }
 
+header h1 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .site-logo {
   display: block;
   width: 300px;
@@ -62,16 +72,6 @@ header.compact h1 {
 }
 header.compact .tagline {
   display: none;
-}
-
-header h1 {
-  font-size: 2.75rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .tagline {
